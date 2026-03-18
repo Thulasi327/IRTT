@@ -8,16 +8,30 @@ shell: bash
 
 steps:
   - type: Command
-    name: "Install dependencies"
+    name: "Install Dependencies"
     command: |
       echo "Installing dependencies..."
-      ls
+      ls -l
+      pwd
+
+  - type: Command
+    name: "Verify Project Structure"
+    command: |
+      echo "Checking folder structure..."
+      ls -R
+
+  - type: Command
+    name: "Run SQL File (Optional)"
+    command: |
+      echo "Processing SQL file..."
+      cat table.sql
 
   - type: Command
     name: "Build Step"
     command: |
       echo "Build started..."
-      echo "Compiling project..."
+      echo "Compiling project in junior_proj..."
+      ls junior_proj
 
   - type: Command
     name: "Test Step"
