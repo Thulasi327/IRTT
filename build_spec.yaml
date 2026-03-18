@@ -8,25 +8,22 @@ timeoutInSeconds: 600
 
 steps:
   - type: Command
-    name: "Check Environment"
+    name: "Create Artifact Properly"
     command: |
-      echo "Build started"
-      pwd
-      ls -al
+      echo "Starting build"
 
-  - type: Command
-    name: "Prepare Output Folder"
-    command: |
-      echo "Creating output folder"
-      mkdir -p output
+      # Always use absolute safe path
+      WORK_DIR=$(pwd)
+      echo "Working dir: $WORK_DIR"
 
-      echo "Adding file to output"
-      echo "Build successful" > output/result.txt
+      mkdir -p $WORK_DIR/output
 
-      # Ensure it's NOT empty
-      ls -l output
+      echo "Hello OCI" > $WORK_DIR/output/result.txt
+
+      echo "Verifying output:"
+      ls -l $WORK_DIR/output
 
 outputArtifacts:
-  - name: output-artifact
+  - name: build_output
     type: BINARY
     location: output
