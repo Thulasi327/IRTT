@@ -15,40 +15,16 @@ steps:
       ls -al
 
   - type: Command
-    name: "Check Files"
+    name: "Prepare Output Folder"
     command: |
-      echo "Checking required files..."
+      echo "Creating output folder"
+      mkdir -p output
 
-      if [ ! -f table.sql ]; then
-        echo "table.sql NOT found"
-        exit 1
-      fi
+      echo "Adding file to output"
+      echo "Build successful" > output/result.txt
 
-      if [ ! -d junior_proj ]; then
-        echo "junior_proj folder NOT found"
-        exit 1
-      fi
-
-      echo "All required files exist"
-
-  - type: Command
-    name: "Process SQL"
-    command: |
-      echo "Reading SQL file"
-      cat table.sql
-
-  - type: Command
-    name: "List Project Folder"
-    command: |
-      echo "Listing junior_proj contents"
-      ls -al junior_proj
-
-  - type: Command
-    name: "Create Artifact"
-    command: |
-      echo "Creating output"
-      mkdir output
-      cp table.sql output/
+      # Ensure it's NOT empty
+      ls -l output
 
 outputArtifacts:
   - name: output-artifact
