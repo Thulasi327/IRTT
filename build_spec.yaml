@@ -2,63 +2,55 @@ version: 0.1
 
 component: build
 
-timeoutInSeconds: 600
-
 shell: bash
+
+timeoutInSeconds: 600
 
 steps:
   - type: Command
-    name: "Step 1 - Show Environment"
+    name: "Check Environment"
     command: |
-      echo "Current directory:"
+      echo "Build started"
       pwd
-      echo "Listing root files:"
-      ls -l
+      ls -al
 
   - type: Command
-    name: "Step 2 - Validate Files"
+    name: "Check Files"
     command: |
-      if [ -f "table.sql" ]; then
-        echo "table.sql found"
-      else
-        echo "ERROR: table.sql not found"
+      echo "Checking required files..."
+
+      if [ ! -f table.sql ]; then
+        echo "table.sql NOT found"
         exit 1
       fi
 
-      if [ -d "junior_proj" ]; then
-        echo "junior_proj folder found"
-      else
-        echo "ERROR: junior_proj folder not found"
+      if [ ! -d junior_proj ]; then
+        echo "junior_proj folder NOT found"
         exit 1
       fi
 
+      echo "All required files exist"
+
   - type: Command
-    name: "Step 3 - Read SQL File"
+    name: "Process SQL"
     command: |
-      echo "Displaying table.sql content:"
+      echo "Reading SQL file"
       cat table.sql
 
   - type: Command
-    name: "Step 4 - Process Project Folder"
+    name: "List Project Folder"
     command: |
-      echo "Inside junior_proj:"
-      ls -l junior_proj
+      echo "Listing junior_proj contents"
+      ls -al junior_proj
 
   - type: Command
-    name: "Step 5 - Dummy Build"
+    name: "Create Artifact"
     command: |
-      echo "Build started..."
-      mkdir -p output
+      echo "Creating output"
+      mkdir output
       cp table.sql output/
-      echo "Build completed"
-
-  - type: Command
-    name: "Step 6 - Dummy Test"
-    command: |
-      echo "Running tests..."
-      echo "All tests passed"
 
 outputArtifacts:
-  - name: build_output
+  - name: output-artifact
     type: BINARY
     location: output
