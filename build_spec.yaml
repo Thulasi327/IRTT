@@ -8,33 +8,52 @@ shell: bash
 
 steps:
   - type: Command
-    name: "Install Dependencies"
+    name: "Step 1 - Show Environment"
     command: |
-      echo "Installing dependencies..."
-      ls -l
+      echo "Current directory:"
       pwd
+      echo "Listing root files:"
+      ls -l
 
   - type: Command
-    name: "Verify Project Structure"
+    name: "Step 2 - Validate Files"
     command: |
-      echo "Checking folder structure..."
-      ls -R
+      if [ -f "table.sql" ]; then
+        echo "table.sql found"
+      else
+        echo "ERROR: table.sql not found"
+        exit 1
+      fi
+
+      if [ -d "junior_proj" ]; then
+        echo "junior_proj folder found"
+      else
+        echo "ERROR: junior_proj folder not found"
+        exit 1
+      fi
 
   - type: Command
-    name: "Run SQL File (Optional)"
+    name: "Step 3 - Read SQL File"
     command: |
-      echo "Processing SQL file..."
+      echo "Displaying table.sql content:"
       cat table.sql
 
   - type: Command
-    name: "Build Step"
+    name: "Step 4 - Process Project Folder"
     command: |
-      echo "Build started..."
-      echo "Compiling project in junior_proj..."
-      ls junior_proj
+      echo "Inside junior_proj:"
+      ls -l junior_proj
 
   - type: Command
-    name: "Test Step"
+    name: "Step 5 - Dummy Build"
+    command: |
+      echo "Build started..."
+      mkdir -p output
+      cp table.sql output/
+      echo "Build completed"
+
+  - type: Command
+    name: "Step 6 - Dummy Test"
     command: |
       echo "Running tests..."
       echo "All tests passed"
@@ -42,4 +61,4 @@ steps:
 outputArtifacts:
   - name: build_output
     type: BINARY
-    location: .
+    location: output
